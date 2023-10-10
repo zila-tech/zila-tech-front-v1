@@ -1,0 +1,27 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+# echo "# zila-tech-v1" >> README.md
+# git init
+# git add README.md
+# git commit -m "first commit"
+# git branch -M main
+# git remote add origin https://github.com/zila-tech/zila-tech-v1.git
+# git push -u origin main
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env
+env
+*.scss.map
+*.scss
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+

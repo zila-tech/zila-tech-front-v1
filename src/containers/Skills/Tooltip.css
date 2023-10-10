@@ -1,0 +1,79 @@
+/* Base styles */
+.relative {
+  position: relative;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.group {
+  position: relative;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.tooltip-modal {
+  position: absolute;
+}
+
+.tooltip-content {
+  position: relative;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: rgba(17, 24, 39, 0.9);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  pointer-events: none;
+  text-align: center;
+  padding: 0.5rem;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1); */
+}
+
+.tooltip-content.top {
+  transform: translate(-50%, -150%); /* Adjust the second value (Y-axis) to move it farther from the child */
+}
+
+.tooltip-content.bottom {
+  transform: translate(-50%, 30%); /* Adjust the second value (Y-axis) to move it farther from the child */
+}
+
+.tooltip-content.left {
+  transform: translate(-110%, -50%); /* Adjust the first value (X-axis) to move it farther from the child */
+}
+
+.tooltip-content.right {
+  transform: translate(30%, -50%); /* Adjust the first value (X-axis) to move it farther from the child */
+}

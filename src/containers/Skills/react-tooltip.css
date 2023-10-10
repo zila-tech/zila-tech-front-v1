@@ -1,0 +1,60 @@
+/* tooltipStyles.css */
+
+:root {
+  --rt-color-white: #fff;
+  --rt-color-dark: #222;
+  --rt-color-success: #8dc572;
+  --rt-color-error: #be6464;
+  --rt-color-warning: #f0ad4e;
+  --rt-color-info: #337ab7;
+  --rt-opacity: 0.9;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 9999; /* Display tooltip above other content */
+  padding: 8px 16px;
+  border-radius: 3px;
+  font-size: 90%;
+  width: max-content;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  will-change: opacity, visibility;
+}
+
+.tooltip.fixed {
+  position: fixed;
+}
+
+.tooltip .tooltip-arrow {
+  position: absolute;
+  background: inherit;
+  width: 8px;
+  height: 8px;
+}
+
+.tooltip .tooltip-arrow.top {
+  transform: rotate(45deg);
+}
+
+.tooltip .tooltip-arrow.right {
+  transform: rotate(135deg);
+}
+
+.tooltip .tooltip-arrow.bottom {
+  transform: rotate(225deg);
+}
+
+.tooltip .tooltip-arrow.left {
+  transform: rotate(315deg);
+}
+
+.tooltip.show {
+  visibility: visible;
+  opacity: var(--rt-opacity);
+}
+
+/* Your color variants */
+/* ... */
