@@ -14,14 +14,22 @@ const Skills = () => {
 
 	useEffect(() => {
 		async function fetchSkillsAndExperiences() {
-			const skillsResponse = await fetch(`${process.env.REACT_APP_API_URL}v3/skills/`);
-			const skillData = await skillsResponse.json();
-			setSkills(skillData);
+			try {
+				const [skillsResponse, experiencesResponse] = await Promise.all([
+					fetch(`${process.env.REACT_APP_API_URL}v3/skills/`),
+					fetch(`${process.env.REACT_APP_API_URL}v3/experiences/`),
+				]);
 
-			const experiencesResponse = await fetch(`${process.env.REACT_APP_API_URL}v3/experiences/`);
-			const experiencesData = await experiencesResponse.json();
-			setExperiences([...experiencesData]);
+				const [skillData, experiencesData] = await Promise.all([
+					skillsResponse.json(),
+					experiencesResponse.json(),
+				]);
 
+				setSkills(skillData);
+				setExperiences([...experiencesData]);
+			} catch (error) {
+
+			}
 		}
 
 		fetchSkillsAndExperiences();
@@ -60,17 +68,6 @@ const Skills = () => {
 							<motion.div className='app__skills-exp-works' id=''>
 								{experience.works.map((work, index) => (
 									<React.Fragment key={work.name}>
-										{/* <Tooltip
-											id={`${index}`}
-											effect="solid"
-											arrowColor="#fff"
-											className="skills-tooltip"
-											description={work.desc}
-										>
-											
-
-
-										</Tooltip> */}
 										<Tooltip id={`${work.name}-${index}`} position="top" content={work.desc}>
 											<motion.div
 												whileInView={{ opacity: [0, 1] }}
@@ -81,7 +78,6 @@ const Skills = () => {
 											>
 												<h4 className='bold-text'>{work.name}
 												</h4>
-												{/* <p className='p-text'>{work.company}</p> */}
 											</motion.div>
 										</Tooltip>
 

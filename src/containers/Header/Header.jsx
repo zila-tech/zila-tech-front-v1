@@ -43,16 +43,6 @@ const Header = () => {
     const [notes, setNotes] = useState(getNote);
     const [imageData, setImageWraperData] = useState([]);
 
-    function getSelectedNote(selectedNote) {
-        const matchingProperties = {};
-        for (const key in selectedNote) {
-            if (getNote.hasOwnProperty(key)) {
-                matchingProperties[key] = selectedNote[key];
-            }
-        }
-        return matchingProperties;
-    }
-
     function getSelectedImageWrapper(selectedItem) {
         const arr = [];
         for (const key in selectedItem) {
@@ -66,43 +56,50 @@ const Header = () => {
 
     useEffect(() => {
         async function fetchGallary() {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}v3/gallary/`);
-            const data = await response.json();
-            const noteResponse = await fetch(`${process.env.REACT_APP_API_URL}v3/notes/`);
-            const noteData = await noteResponse.json();
-            const imageWraperResponse = await fetch(`${process.env.REACT_APP_API_URL}v3/wrapperImages/`);
-            const imageWraperData = await imageWraperResponse.json();
+            try {
+                const [galleryResponse, noteResponse, imageWrapperResponse] = await Promise.all([
+                    fetch(`${process.env.REACT_APP_API_URL}v3/gallary/`),
+                    fetch(`${process.env.REACT_APP_API_URL}v3/notes/`),
+                    fetch(`${process.env.REACT_APP_API_URL}v3/wrapperImages/`),
+                ]);
 
-            setImageArray(data.map((gallary) => gallary.file));
+                const [galleryData, noteData, imageWrapperData] = await Promise.all([
+                    galleryResponse.json(),
+                    noteResponse.json(),
+                    imageWrapperResponse.json(),
+                ]);
 
-            let noteRandomIndex = Math.floor(Math.random() * noteData.length);
-            let selectedNote = noteData[noteRandomIndex];
-            setNotes(getSelectedNote(selectedNote));
-            let randomIndex = Math.floor(Math.random() * data.length);
-            setCurrentImageIndex(randomIndex);
-
-            let imageWrapperIndex = Math.floor(Math.random() * imageWraperData.length);
-            let selectedImageWrapper = imageWraperData[imageWrapperIndex];
-            setImageWraperData(getSelectedImageWrapper(selectedImageWrapper));
-            if (data.length > 0 && noteData.length > 0) {
-                const interval = setInterval(() => {
-                    randomIndex = Math.floor(Math.random() * data.length);
-                    setCurrentImageIndex(randomIndex);
-
-                    noteRandomIndex = Math.floor(Math.random() * noteData.length);
-                    selectedNote = noteData[noteRandomIndex];
-                    setNotes(getSelectedNote(selectedNote));
+                setImageArray(galleryData.map((gallery) => gallery.file));
+                const randomIndex = Math.floor(Math.random() * galleryData.length);
+                setCurrentImageIndex(randomIndex);
 
 
-                    imageWrapperIndex = Math.floor(Math.random() * imageWraperData.length);
-                    selectedImageWrapper = imageWraperData[imageWrapperIndex];
-                    setImageWraperData(getSelectedImageWrapper(selectedImageWrapper));
-                }, 15000);
 
-                return () => clearInterval(interval);
+                const noteRandomIndex = Math.floor(Math.random() * noteData.length);
+                setNotes(noteData[noteRandomIndex]);
+
+                const imageWrapperIndex = Math.floor(Math.random() * imageWrapperData.length);
+                setImageWraperData(getSelectedImageWrapper(imageWrapperData[imageWrapperIndex]));
+
+
+                if (imageWrapperData.length > 0 && noteData.length > 0) {
+                    const interval = setInterval(() => {
+                        const randomIndex = Math.floor(Math.random() * galleryData.length);
+                        setCurrentImageIndex(randomIndex);
+
+                        const noteRandomIndex = Math.floor(Math.random() * noteData.length);
+                        setNotes(noteData[noteRandomIndex]);
+
+                        const imageWrapperIndex = Math.floor(Math.random() * imageWrapperData.length);
+                        setImageWraperData(getSelectedImageWrapper(imageWrapperData[imageWrapperIndex]));
+
+                    }, 15000);
+
+                    return () => clearInterval(interval);
+                }
+            } catch (error) {
+
             }
-
-
         }
 
         fetchGallary();
@@ -145,7 +142,7 @@ const Header = () => {
                         src={imageArray[currentImageIndex]}
                         alt='gallary'
                     />
-                </AnimatePresence>;
+                </AnimatePresence>
                 <motion.img
                     variants={scaleVariants}
                     whileInView={scaleVariants.whileInView}

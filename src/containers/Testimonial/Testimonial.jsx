@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { AppWrap, MotionWrap } from '../../wrapper';
 import './Testimonial.css';
 import { NavItemEnum } from '../../constants';
-// import axiosInstance from '../../axio/axio'
 
 const Testimonial = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,13 +18,21 @@ const Testimonial = () => {
 	useEffect(() => {
 
 		async function fetchBrandsAndTestimonials() {
-			const brandsResponse = await fetch(`${process.env.REACT_APP_API_URL}v3/brands/`);
-			const brandsData = await brandsResponse.json();
-			setBrands(brandsData);
+			try {
+				const [brandsResponse, testimonialsResponse] = await Promise.all([
+					fetch(`${process.env.REACT_APP_API_URL}v3/brands/`),
+					fetch(`${process.env.REACT_APP_API_URL}v3/testimonials/`),
+				]);
 
-			const testimonialsResponse = await fetch(`${process.env.REACT_APP_API_URL}v3/testimonials/`);
-			const testimonialsData = await testimonialsResponse.json();
-			setTestimonials(testimonialsData);
+				const [brandsData, testimonialsData] = await Promise.all([
+					brandsResponse.json(),
+					testimonialsResponse.json(),
+				]);
+				setBrands(brandsData);
+				setTestimonials(testimonialsData);
+			} catch (error) {
+
+			}
 		}
 
 		fetchBrandsAndTestimonials();
