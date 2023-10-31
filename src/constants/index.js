@@ -1,5 +1,5 @@
 import images from './images';
-const NavItems = ['home', 'about', 'work', 'skills', 'testimonial', 'contact'];
+const NavItems = ['home', 'about', 'work', 'services', 'testimonial', 'contact'];
 // Create an Enum object to represent NavItems
 const NavItemEnum = {};
 NavItems.forEach((item, index) => {
